@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- GitHub Pages 등 정적 호스팅 시 백엔드 URL 설정 (예: https://your-app.onrender.com) -->
+  <meta name="api-base" content="">
+  <title>번역</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="./" aria-label="번역 홈">
+        <svg class="logo-icon" viewBox="0 0 28 28" width="28" height="28" aria-hidden="true">
+          <circle cx="14" cy="14" r="14" fill="#03C75A"/>
+          <path fill="#fff" d="M8.5 9.5c0-1.1.9-2 2-2h7c2.2 0 4 1.8 4 4 0 1.5-.8 2.8-2.1 3.4L20 19h-2.4l-2.5-3.8H11.5V19H8.5V9.5zm3 1.8v3.4h3.5c.9 0 1.5-.6 1.5-1.5s-.6-1.5-1.5-1.5h-3.5z"/>
+        </svg>
+        <span class="logo-text">번역</span>
+      </a>
+      <nav class="service-nav" aria-label="서비스 메뉴">
+        <span class="nav-item is-active">텍스트</span>
+        <span class="nav-item">AI 요약</span>
+        <span class="nav-item">음성 읽기</span>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <main class="translator" aria-label="번역기">
+      <div class="lang-bar">
+        <div class="lang-slot lang-slot--source">
+          <select id="sourceLang" aria-label="원본 언어"></select>
+        </div>
+
+        <button type="button" class="swap-btn" id="swapBtn" title="언어 교환" aria-label="언어 교환">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path fill="currentColor" d="M16 3l-1.41 1.41L18.17 8H4v2h14.17l-3.58 3.59L16 15l6-6-6-6zM8 21l1.41-1.41L5.83 16H20v-2H5.83l3.58-3.59L8 9l-6 6 6 6z"/>
+          </svg>
+        </button>
+
+        <div class="lang-slot lang-slot--target">
+          <select id="targetLang" aria-label="번역 언어"></select>
+        </div>
+      </div>
+
+      <div class="translator-body">
+        <section class="panel panel--source" id="dropZone">
+          <div class="drop-overlay" id="dropOverlay" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
+              <path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+            </svg>
+            <p class="drop-title">.txt 파일을 여기에 놓으세요</p>
+          </div>
+
+          <textarea
+            id="inputText"
+            placeholder="번역할 내용을 입력해 주세요."
+            spellcheck="true"
+          ></textarea>
+
+          <footer class="panel-footer">
+            <span class="file-badge" id="fileBadge" hidden></span>
+            <span class="char-count" id="charCount"></span>
+            <div class="panel-tools">
+              <input type="file" id="fileInput" accept=".txt,text/plain" hidden>
+              <button type="button" class="tool-btn" id="fileBtn" title="파일 불러오기" aria-label="파일 불러오기">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path fill="currentColor" d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                </svg>
+              </button>
+              <button type="button" class="tool-btn" id="clearBtn" title="입력 지우기" aria-label="입력 지우기">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+              </button>
+              <button type="button" class="tool-btn tool-btn--translate" id="translateBtn" title="번역 (Ctrl+Enter)" aria-label="번역">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/>
+                </svg>
+              </button>
+            </div>
+          </footer>
+        </section>
+
+        <div class="panel-split" aria-hidden="true"></div>
+
+        <section class="panel panel--target">
+          <textarea id="outputText" placeholder="번역" readonly></textarea>
+
+          <footer class="panel-footer">
+            <span class="char-count" id="outputCharCount"></span>
+            <div class="panel-tools">
+              <button type="button" class="tool-btn tool-btn--tts" id="ttsBtn" title="음성읽기" aria-label="음성읽기">
+                <svg class="tts-icon-play" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                </svg>
+                <svg class="tts-icon-pause" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" hidden>
+                  <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+                <span class="tts-label" id="ttsLabel">음성읽기</span>
+              </button>
+              <button type="button" class="tool-btn" id="copyBtn" title="복사" aria-label="결과 복사">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+              </button>
+              <button type="button" class="tool-btn" id="downloadBtn" title="저장" aria-label="번역본 저장">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+              </button>
+            </div>
+          </footer>
+        </section>
+      </div>
+    </main>
+
+    <section class="summary-section" id="summarySection" aria-label="3단계 요약">
+      <div class="summary-bar">
+        <h2>AI 3단계 요약</h2>
+        <button type="button" class="summary-trigger" id="summarizeBtn">요약하기</button>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-item">
+          <h3>한 줄 요약</h3>
+          <p class="summary-text" id="summaryLine">번역 결과를 기반으로 요약이 표시됩니다.</p>
+        </article>
+        <article class="summary-item">
+          <h3>짧은 요약</h3>
+          <p class="summary-text" id="summaryShort">—</p>
+        </article>
+        <article class="summary-item">
+          <h3>상세 요약</h3>
+          <p class="summary-text" id="summaryDetailed">—</p>
+        </article>
+      </div>
+    </section>
+
+    <p class="status" id="status" role="status">
+      <span class="status-text">준비됨</span>
+    </p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
